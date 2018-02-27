@@ -41,25 +41,29 @@ namespace AnalyzerLogic
             foreach (Signal signal in Signals)
             {
                 int i = signal.Id;
-                //软件模拟周期性通道   通道2
                 if (i == 6)
                 {
                     //SDA
-                    signal.Init_Values.Add((float)b[0x10] / 85);
+                    signal.Values.Add((float)b[0x10] / 85);
+                    signal.Init_Value = b[0x10];
                     signal.Value = (float)b[0x10] / 85;
                 }
-                if (i == 7)
+                else if (i == 7)
                 {
                     //SCL
-                    signal.Init_Values.Add((float)b[0x11] / 85);
+                    signal.Values.Add((float)b[0x11] / 85);
+                    signal.Init_Value = b[0x11];
                     signal.Value = (float)b[0x11] / 85;
                 }
-                if (i <= 5)
+                else
                 {
-                    signal.Init_Values.Add((float)b[i] / 85);
+                    signal.Values.Add((float)b[i] / 85);
+                    signal.Init_Value = b[i];
                     signal.Value = (float)b[i] / 85;
                 }
-                if (signal.Init_Values.Count >= 20000)
+
+                //设置缓存清除数据
+                if (signal.Values.Count >= 20000)
                 {
                     //signal.Init_Values.RemoveRange(0, 5000);
                 }
@@ -92,7 +96,9 @@ namespace AnalyzerLogic
             channel.Name = "通道" + (id + 1);
             int colorid = id >= 9 ? id % 9 : id;
             channel.Color = libColor[colorid];
-            channel.Init_Values = signal.Init_Values;
+            channel.Values = signal.Values;
+            channel.Value = signal.Value;
+            channel.Init_Value = signal.Init_Value;
             Channels.Add(channel);
         }
     }

@@ -250,7 +250,7 @@ namespace ZongContorls
 
         public List<double> Init_Values
         {
-            get { return channel.Init_Values; }
+            get { return channel.Values; }
         }
         
         public bool IsShow

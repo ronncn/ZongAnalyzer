@@ -62,6 +62,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Osc\AddChannelWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Osc\Oscilloscope.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -113,6 +117,9 @@
     </Compile>
     <Compile Include="NewWindow.xaml.cs">
       <DependentUpon>NewWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Osc\AddChannelWindow.xaml.cs">
+      <DependentUpon>AddChannelWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Osc\OscDisplay.cs">
       <SubType>UserControl</SubType>

@@ -103,5 +103,10 @@ namespace ZongContorls.Osc
                 listItem.Background = listItem.BorderBrush;
             }
         }
+
+        private void add_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
