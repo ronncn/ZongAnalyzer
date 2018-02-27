@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3F5CB1A5-65FD-4809-92F6-BD4DE949CE99}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>ZongContorls</RootNamespace>
+    <AssemblyName>ZongContorls</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DockPanelSplitter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DockPanelSplitter.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="ChannelListBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NewWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Osc\Oscilloscope.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Osc\OscPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Osc\OscRuler.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Osc\OscScrollBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Osc\OscSwiperBtn.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Osc\OscToolBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Osc\SignalListBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RulerDisplay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SwiperBtn.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ZongTab.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="ChannelListBox.xaml.cs">
+      <DependentUpon>ChannelListBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Display.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Display.Designer.cs">
+      <DependentUpon>Display.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewWindow.xaml.cs">
+      <DependentUpon>NewWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Osc\OscDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Osc\OscDisplay.Designer.cs">
+      <DependentUpon>OscDisplay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Osc\Oscilloscope.xaml.cs">
+      <DependentUpon>Oscilloscope.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Osc\OscPanel.xaml.cs">
+      <DependentUpon>OscPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Osc\OscRuler.xaml.cs">
+      <DependentUpon>OscRuler.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Osc\OscScrollBar.xaml.cs">
+      <DependentUpon>OscScrollBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Osc\OscSwiperBtn.xaml.cs">
+      <DependentUpon>OscSwiperBtn.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Osc\OscToolBar.xaml.cs">
+      <DependentUpon>OscToolBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Osc\SignalListBox.xaml.cs">
+      <DependentUpon>SignalListBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RulerDisplay.xaml.cs">
+      <DependentUpon>RulerDisplay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SwiperBtn.xaml.cs">
+      <DependentUpon>SwiperBtn.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ZongTab.xaml.cs">
+      <DependentUpon>ZongTab.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Display.resx">
+      <DependentUpon>Display.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Osc\OscDisplay.resx">
+      <DependentUpon>OscDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\close_1.png" />
+    <Resource Include="Images\close_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AnalyzerLogic\AnalyzerLogic.csproj">
+      <Project>{82dcd25d-48b6-459a-8ec0-c7f55017643c}</Project>
+      <Name>AnalyzerLogic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\camera.png" />
+    <Resource Include="Images\start.png" />
+    <Resource Include="Images\stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\fenxi.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\moshi_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\moshi_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\del.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\eye.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\switch_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\switch_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\switch_3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\disconnect.png" />
+    <Resource Include="Images\link.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\unlink.png" />
+    <Resource Include="Images\_link.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

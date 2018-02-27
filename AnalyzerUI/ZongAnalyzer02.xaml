@@ -1,0 +1,13 @@
+﻿<Window x:Class="AnalyzerUI.ZongAnalyzer02"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AnalyzerUI"
+        xmlns:ctrls="clr-namespace:ZongContorls;assembly=ZongContorls"
+        mc:Ignorable="d"
+        Title="综合分析仪V0.2" Height="600" Width="1200" Icon="Images/head.png" MinWidth="800" MinHeight="600" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <Grid>
+        <ctrls:Oscilloscope></ctrls:Oscilloscope>
+    </Grid>
+</Window>
