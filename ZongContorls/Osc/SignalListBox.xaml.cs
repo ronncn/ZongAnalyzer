@@ -25,11 +25,15 @@ namespace ZongContorls.Osc
         public SignalListBox()
         {
             InitializeComponent();
-            listBox.ItemsSource = Channels;
         }
         
         public ObservableCollection<Channel> Channels;
-
+        
+        public void BindingChannels(ObservableCollection<Channel> channels)
+        {
+            listBox.ItemsSource = Channels;
+            this.Channels = channels;
+        }
         private Channel _SelectedChannelItem;
         public Channel SelectedChannelItem
         {
@@ -101,7 +105,7 @@ namespace ZongContorls.Osc
 
         private void add_Click(object sender, RoutedEventArgs e)
         {
-            AddChannelWindow addChannelWindow = new AddChannelWindow();
+            AddChannelWindow addChannelWindow = new AddChannelWindow(this);
             addChannelWindow.Show();
         }
     }

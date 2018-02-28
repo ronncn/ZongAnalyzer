@@ -135,12 +135,13 @@
                         <WrapPanel Margin="30,0,0,0">
                             <Label Foreground="DimGray">时间:</Label>
                             <TextBox VerticalContentAlignment="Center"
+                                     Name="clock"
                                      Background="{x:Null}"
                                      BorderThickness="0"
                                      TextAlignment="Right"
                                      Foreground="DimGray"
-                                     IsReadOnly="True" Cursor="None">1:24</TextBox>
-                            <Label Foreground="DimGray">分</Label>
+                                     IsReadOnly="True"
+                                     Text="{Binding Path=Output,UpdateSourceTrigger=PropertyChanged}" />
                         </WrapPanel>
                     </WrapPanel>
                 </Grid>

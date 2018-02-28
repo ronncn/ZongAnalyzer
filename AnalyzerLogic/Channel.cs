@@ -37,6 +37,7 @@ namespace AnalyzerLogic
                 if (_Init_Value != value)
                 {
                     _Init_Value = value;
+                    OnPropertyChanged("Init_Value");
                     if (Init_ValueChanged != null)
                     {
                         Init_ValueChanged();
@@ -92,6 +93,7 @@ namespace AnalyzerLogic
     {
         private int _Id;
         private string _Name;
+        private string _From;
         private List<double> _Values;
         private string _Color;                //通道颜色,定义16进制代码
         private int _Init_Value;
@@ -144,6 +146,12 @@ namespace AnalyzerLogic
         {
             get { return _Name; }
             set { _Name = value; }
+        }
+        
+        public string From
+        {
+            get { return _From; }
+            set { _From = value; }
         }
 
         public List<double> Values

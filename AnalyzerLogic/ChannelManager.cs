@@ -27,7 +27,6 @@ namespace AnalyzerLogic
             signal.Id = id;
             signal.Name = "信道" + id;
             Signals.Add(signal);
-            AddChannel(signal);
         }
         
         /// <summary>
@@ -80,6 +79,7 @@ namespace AnalyzerLogic
             Channel channel = new Channel();
             channel.Id = id;
             channel.Name = "通道" + (id + 1);
+            channel.From = "from null";
             int colorid = id >= 9 ? id % 9 : id;
             channel.Color = libColor[colorid];
             Channels.Add(channel);
@@ -95,6 +95,7 @@ namespace AnalyzerLogic
             Channel channel = new Channel(signal);
             channel.Id = id;
             channel.Name = "通道" + (id + 1);
+            channel.From = "from "+signal.Name;
             int colorid = id >= 9 ? id % 9 : id;
             channel.Color = libColor[colorid];
             channel.Values = signal.Values;

@@ -14,7 +14,7 @@
             <RowDefinition Height="100" />
         </Grid.RowDefinitions>
         <osc:OscToolBar x:Name="OscToolBar_1" Grid.Row="0"></osc:OscToolBar>
-        <osc:OscPanel Grid.Row="1"></osc:OscPanel>
+        <osc:OscPanel x:Name="OscPanel_1" Grid.Row="1"></osc:OscPanel>
         <osc:SignalListBox x:Name="SignalListBox_1" Grid.Row="2"></osc:SignalListBox>
     </Grid>
 </UserControl>

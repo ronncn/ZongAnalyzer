@@ -68,7 +68,9 @@
                                                                 </Style>
                                                             </Button.Style>
                                                         </Button>
+                                                        <!--{Binding Path=Name}-->
                                                         <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding Path=Name}" />
+                                                        <TextBlock VerticalAlignment="Center" Foreground="#CCCCCC" Margin="5,5,0,0" FontSize="10" Text="{Binding Path=From}" />
                                                     </StackPanel>
                                                     <Button ToolTip="关闭" Name="btnClose" Grid.Column="1" Click="btnClose_Click">
                                                         <Button.Style>

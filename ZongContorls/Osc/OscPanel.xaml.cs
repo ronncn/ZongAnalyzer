@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AnalyzerLogic;
 
 namespace ZongContorls.Osc
 {
@@ -25,6 +26,8 @@ namespace ZongContorls.Osc
             InitializeComponent();
             InitializeRuler();
             this.DataContext = display;
+            TimeClock timeClock = new TimeClock();
+            this.clock.DataContext = timeClock;
         }
 
         //初始化标尺

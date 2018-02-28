@@ -49,5 +49,13 @@ namespace ZongContorls.Osc
             }
             this.connect.Source = imgSource;
         }
+
+
+        //设置BtnStop按钮的上下文
+        public void SetBtnStopContext(object context)
+        {
+            this.BtnStop.DataContext = context;
+        }
+             
     }
 }

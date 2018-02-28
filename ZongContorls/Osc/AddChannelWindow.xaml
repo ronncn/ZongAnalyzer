@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZongContorls.Osc"
         mc:Ignorable="d"
-        Title="选择信道" Height="600" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="选择信道" Height="500" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
@@ -13,11 +13,11 @@
             <RowDefinition Height="50" /> 
         </Grid.RowDefinitions>
         <TextBlock FontSize="16" VerticalAlignment="Center" Margin="10,0,0,0">信道源:</TextBlock>
-        <ListBox Grid.Row="1" Name="signalListBox">
+        <ListBox Grid.Row="1" Name="signalListBox" SelectionMode="Multiple">
             <ListBox.Template>
                 <ControlTemplate TargetType="{x:Type ListBox}">
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                        <WrapPanel Orientation="Horizontal" IsItemsHost="True" ScrollViewer.CanContentScroll="True"/>
+                        <WrapPanel Orientation="Horizontal" IsItemsHost="True" ScrollViewer.CanContentScroll="True" HorizontalAlignment="Center"/>
                     </ScrollViewer>
                 </ControlTemplate>
             </ListBox.Template>
@@ -33,9 +33,18 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="ListBoxItem">
                                 <Border CornerRadius="3"
-                                                Background="{TemplateBinding Background}"
-                                                Padding="{TemplateBinding Padding}">
-                                    <ContentPresenter Content="{Binding Path=Name}" HorizontalAlignment="Center"/>
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        Padding="{TemplateBinding Padding}">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text="{Binding Path=Name}" Grid.Row="0" HorizontalAlignment="Center" />
+                                        <TextBlock Text="{Binding Path=Init_Value}" Grid.Row="1" HorizontalAlignment="Center" />
+                                    </Grid>
                                 </Border>
                             </ControlTemplate>
                         </Setter.Value>
@@ -43,15 +52,19 @@
                     <Style.Triggers>
                         <!--鼠标滑过时字体为红色-->
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="White"/>
+                            <Setter Property="BorderBrush" Value="Gray"/>
+                            <Setter Property="BorderThickness" Value="1" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="LightGray" />
                         </Trigger>
                     </Style.Triggers>
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" >
-            <Button Width="60" Height="30" Content="新建" Margin="10,0,10,0" />
-            <Button Width="60" Height="30" Content="添加" Margin="10,0,10,0" />
+            <Button Name="New" Width="60" Height="30" Content="新建" Margin="10,0,10,0" Click="New_Click" />
+            <Button Name="Add" Width="60" Height="30" Content="添加" Margin="10,0,10,0" Click="Add_Click" />
         </StackPanel>
     </Grid>
 </Window>

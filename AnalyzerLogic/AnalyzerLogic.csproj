@@ -46,6 +46,7 @@
     <Compile Include="DataHandling.cs" />
     <Compile Include="DisplayConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimeClock.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Desktop\解决方案\电压采集1-18\USBLib\USBLib.csproj">
