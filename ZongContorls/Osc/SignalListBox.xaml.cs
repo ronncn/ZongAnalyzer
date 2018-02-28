@@ -25,6 +25,7 @@ namespace ZongContorls.Osc
         public SignalListBox()
         {
             InitializeComponent();
+            listBox.ItemsSource = Channels;
         }
         
         public ObservableCollection<Channel> Channels;
@@ -45,13 +46,7 @@ namespace ZongContorls.Osc
 
         public delegate void ChangedEventHandler();         //定义委托
         public event ChangedEventHandler ValueChanged;      //定义事件
-
-        public void BindChannels(ObservableCollection<Channel> channels)
-        {
-            this.Channels = channels;
-            listBox.ItemsSource = Channels;
-        }
-
+        
         //关闭信道item
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
@@ -106,7 +101,8 @@ namespace ZongContorls.Osc
 
         private void add_Click(object sender, RoutedEventArgs e)
         {
-
+            AddChannelWindow addChannelWindow = new AddChannelWindow();
+            addChannelWindow.Show();
         }
     }
 }

@@ -25,7 +25,6 @@ namespace ZongContorls
         public Oscilloscope()
         {
             InitializeComponent();//初始化元件
-            InitializeSignalListBox();//初始化通道列表
             dataHandling = new DataHandling();
             dataHandling.PropertyChanged += new PropertyChangedEventHandler(UsbState_PropertyChanged);
         }
@@ -41,12 +40,6 @@ namespace ZongContorls
         {
             //工具条的链接状态信息,改变
             this.OscToolBar_1.SetConnectState(dataHandling.UsbState);
-        }
-
-        //初始化通道列表
-        private void InitializeSignalListBox()
-        {
-            this.SignalListBox_1.BindChannels(ChannelManager.Channels);
         }
     }
 }

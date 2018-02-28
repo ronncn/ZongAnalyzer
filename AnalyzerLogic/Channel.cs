@@ -10,12 +10,25 @@ using System.Threading.Tasks;
 namespace AnalyzerLogic
 {
     //信道
-    public class Signal
+    public class Signal : INotifyPropertyChanged
     {
         public int Id;                     //信道id
+        public string _Name;
         private int _Init_Value;
         private double _Value;
 
+        public string Name
+        {
+            get { return _Name; }
+            set
+            {
+                if(value != _Name)
+                {
+                    _Name = value;
+                    OnPropertyChanged("Name");
+                }
+            }
+        }
         public int Init_Value
         {
             get { return _Init_Value; }
@@ -61,6 +74,17 @@ namespace AnalyzerLogic
         public event ChangedEventHandler ValueChanged;      //定义事件
 
         public event ChangedEventHandler Init_ValueChanged;  //定义事件
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 
     //通道

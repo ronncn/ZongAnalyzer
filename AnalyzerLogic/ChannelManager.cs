@@ -25,6 +25,7 @@ namespace AnalyzerLogic
             int id = Signals.Count == 0 ? 0 : Signals.Last<Signal>().Id + 1;
             Signal signal = new Signal();
             signal.Id = id;
+            signal.Name = "信道" + id;
             Signals.Add(signal);
             AddChannel(signal);
         }

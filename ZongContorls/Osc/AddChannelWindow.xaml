@@ -5,8 +5,53 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZongContorls.Osc"
         mc:Ignorable="d"
-        Title="选择信道" Height="300" Width="300">
+        Title="选择信道" Height="600" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" /> 
+        </Grid.RowDefinitions>
+        <TextBlock FontSize="16" VerticalAlignment="Center" Margin="10,0,0,0">信道源:</TextBlock>
+        <ListBox Grid.Row="1" Name="signalListBox">
+            <ListBox.Template>
+                <ControlTemplate TargetType="{x:Type ListBox}">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                        <WrapPanel Orientation="Horizontal" IsItemsHost="True" ScrollViewer.CanContentScroll="True"/>
+                    </ScrollViewer>
+                </ControlTemplate>
+            </ListBox.Template>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Width" Value="80" />
+                    <Setter Property="Height" Value="100" />
+                    <Setter Property="Background" Value="#F4F5F6" />
+                    <Setter Property="Margin" Value="5" />
+                    <Setter Property="Foreground" Value="Gray" />
+                    <Setter Property="Padding" Value="0,10,0,0" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border CornerRadius="3"
+                                                Background="{TemplateBinding Background}"
+                                                Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter Content="{Binding Path=Name}" HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <!--鼠标滑过时字体为红色-->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="White"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" >
+            <Button Width="60" Height="30" Content="新建" Margin="10,0,10,0" />
+            <Button Width="60" Height="30" Content="添加" Margin="10,0,10,0" />
+        </StackPanel>
     </Grid>
 </Window>

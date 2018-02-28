@@ -1,5 +1,7 @@
-﻿using System;
+﻿using AnalyzerLogic;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +24,19 @@ namespace ZongContorls.Osc
         public AddChannelWindow()
         {
             InitializeComponent();
+            BindChannels(ChannelManager.Signals);
+        }
+
+        public AddChannelWindow(ObservableCollection<Signal> signels)
+        {
+            InitializeComponent();
+            BindChannels(signels);
+        }
+        public ObservableCollection<Signal> Signels;
+        public void BindChannels(ObservableCollection<Signal> signels)
+        {
+            this.Signels = signels;
+            signalListBox.ItemsSource = Signels;
         }
     }
 }
