@@ -169,6 +169,10 @@ namespace AnalyzerLogic
                 {
                     _Init_Value = value;
                     OnPropertyChanged("Init_Value");
+                    if (Init_ValueChanged != null)
+                    {
+                        Init_ValueChanged();
+                    }
                 }
             }
         }
@@ -198,6 +202,7 @@ namespace AnalyzerLogic
         
         public delegate void ChangedEventHandler();         //定义委托
         public event ChangedEventHandler ValueChanged;      //定义事件
+        public event ChangedEventHandler Init_ValueChanged; //定义事件
 
         
         public event PropertyChangedEventHandler PropertyChanged;

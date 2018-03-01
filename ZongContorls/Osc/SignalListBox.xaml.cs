@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,18 +23,26 @@ namespace ZongContorls.Osc
     /// </summary>
     public partial class SignalListBox : UserControl
     {
+        public ObservableCollection<ChannelItem> ChannelItems = new ObservableCollection<ChannelItem>();
         public SignalListBox()
         {
             InitializeComponent();
         }
         
-        public ObservableCollection<Channel> Channels;
+        public OscPanel _OscPanel;
         
-        public void BindingChannels(ObservableCollection<Channel> channels)
+        public void BindingChannels(ObservableCollection<ChannelItem> channelitems)
         {
-            listBox.ItemsSource = Channels;
-            this.Channels = channels;
+            this.ChannelItems = channelitems;
+            listBox.ItemsSource = ChannelItems;
+            this._OscPanel.display.BindChannels(ChannelItems);
         }
+
+        public void SetOscPanel(OscPanel oscPanel)
+        {
+            this._OscPanel = oscPanel;
+        }
+
         private Channel _SelectedChannelItem;
         public Channel SelectedChannelItem
         {
@@ -47,7 +56,7 @@ namespace ZongContorls.Osc
                 }
             }
         }
-
+        
         public delegate void ChangedEventHandler();         //定义委托
         public event ChangedEventHandler ValueChanged;      //定义事件
         
@@ -56,8 +65,16 @@ namespace ZongContorls.Osc
         {
             ListBoxItem listItem = GetParentObject<ListBoxItem>((DependencyObject)sender);
 
-            Channel c = (Channel)(listItem).DataContext;
-            this.Channels.Remove(c);
+            ChannelItem c = (ChannelItem)(listItem).DataContext;
+            this.ChannelItems.Remove(c);
+            foreach(Channel chan in ChannelManager.Channels)
+            {
+                if(chan.Id == c.Id)
+                {
+                    ChannelManager.Channels.Remove(chan);
+                    return;
+                }
+            }
         }
 
         /// <summary>
@@ -107,6 +124,148 @@ namespace ZongContorls.Osc
         {
             AddChannelWindow addChannelWindow = new AddChannelWindow(this);
             addChannelWindow.Show();
+        }
+    }
+
+    /// <summary>
+    /// ChannelItem
+    /// </summary>
+    public class ChannelItem : INotifyPropertyChanged
+    {
+        private double _Offset_X = 0;         //X轴偏移值
+        private double _Offset_Y = 0;         //Y轴偏移值
+        private bool _IsShow = true;          //是否显示
+
+        private Channel channel;
+
+        public ChannelItem(Channel chan)
+        {
+            this.channel = chan;
+            this.channel.ValueChanged += new Channel.ChangedEventHandler(Value_Changed);
+            this.channel.Init_ValueChanged += new Channel.ChangedEventHandler(Init_Value_Changed);
+        }
+
+        private void Value_Changed()
+        {
+            this.Value = this.channel.Value;
+        }
+
+        private void Init_Value_Changed()
+        {
+            this.Init_Value = this.channel.Init_Value;
+        }
+
+        public int Id
+        {
+            get { return channel.Id; }
+        }
+
+        public string Name
+        {
+            get { return channel.Name; }
+        }
+        public string From
+        {
+            get { return channel.From; }
+        }
+
+        public string Color
+        {
+            get { return channel.Color; }
+        }
+
+        public double Value
+        {
+            get { return channel.Value; }
+            set
+            {
+                channel.Value = value;
+                OnPropertyChanged("Value");
+            }
+        }
+
+        public int Init_Value
+        {
+            get { return channel.Init_Value; }
+            set
+            {
+                channel.Init_Value = value;
+                OnPropertyChanged("Init_Value");
+            }
+        }
+        
+        public List<double> Values
+        {
+            get { return channel.Values; }
+        }
+
+        public bool IsShow
+        {
+            get { return _IsShow; }
+            set { _IsShow = value; }
+        }
+
+        public double Offset_X
+        {
+            get { return _Offset_X; }
+            set { _Offset_X = value; }
+        }
+
+        public double Offset_Y
+        {
+            get { return _Offset_Y; }
+            set { _Offset_Y = value; }
+        }
+        private double _MaxValue;
+        public double MaxValue
+        {
+            get { return _MaxValue; }
+            set
+            {
+                if (value != _MaxValue)
+                {
+                    _MaxValue = value;
+                    OnPropertyChanged("MaxValue");
+                }
+            }
+        }
+
+        private double _MinValue;
+        public double MinValue
+        {
+            get { return _MinValue; }
+            set
+            {
+                if (value != _MinValue)
+                {
+                    _MinValue = value;
+                    OnPropertyChanged("MinValue");
+                }
+            }
+        }
+
+        private double _AvgValue;
+        public double AvgValue
+        {
+            get { return _AvgValue; }
+            set
+            {
+                if (value != _AvgValue)
+                {
+                    _AvgValue = value;
+                    OnPropertyChanged("AvgValue");
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

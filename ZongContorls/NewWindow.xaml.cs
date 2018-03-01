@@ -287,12 +287,12 @@ namespace ZongContorls
         private double _MinValue;
         public double MinValue
         {
-            get { return _MaxValue; }
+            get { return _MinValue; }
             set
             {
-                if(value != _MaxValue)
+                if(value != _MinValue)
                 {
-                    _MaxValue = value;
+                    _MinValue = value;
                     OnPropertyChanged("MinValue");
                 }
             }

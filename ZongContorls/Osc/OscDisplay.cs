@@ -460,6 +460,7 @@ namespace ZongContorls.Osc
         public void DrawChan(Graphics g)
         {
             g.Clear(Color.Transparent);
+            if (listCH == null) { return; }
             if (listCH.Count == 0) { return; }
 
             foreach (ChannelItem ch in listCH)
@@ -471,26 +472,26 @@ namespace ZongContorls.Osc
                 {
                     Color color = System.Drawing.ColorTranslator.FromHtml(ch.Color);
                     Pen pen = new Pen(color, 1);
-                    int num = ch.Init_Values.Count - (500 + 5) * this.Width / gridStep * unit_x / 1000 < 0 ? 0 : ch.Init_Values.Count - (500 + 5) * this.Width / gridStep * unit_x / 1000;
+                    int num = ch.Values.Count - (500 + 5) * this.Width / gridStep * unit_x / 1000 < 0 ? 0 : ch.Values.Count - (500 + 5) * this.Width / gridStep * unit_x / 1000;
                     int c = 0;
-                    for (int i = ch.Init_Values.Count - 1; i > num; i--)
+                    for (int i = ch.Values.Count - 1; i > num; i--)
                     {
-                        if (max < ch.Init_Values[i])
-                            max = ch.Init_Values[i];
-                        if(min > ch.Init_Values[i])
-                            min = ch.Init_Values[i];
-                        avg += ch.Init_Values[i];
-                        g.DrawLine(pen, (float)(c * gridStep / unit_x), (float)-ch.Init_Values[i] * gridStep / unit_y - (float)ch.Offset_Y,
-                            (float)((c - 1000 / 60) * gridStep / unit_x), (float)-(ch.Init_Values[i - 1]) * gridStep / unit_y - (float)ch.Offset_Y);
+                        if (max < ch.Values[i])
+                            max = ch.Values[i];
+                        if(min > ch.Values[i])
+                            min = ch.Values[i];
+                        avg += ch.Values[i];
+                        g.DrawLine(pen, (float)(c * gridStep / unit_x), (float)-ch.Values[i] * gridStep / unit_y - (float)ch.Offset_Y,
+                            (float)((c - 1000 / 60) * gridStep / unit_x), (float)-(ch.Values[i - 1]) * gridStep / unit_y - (float)ch.Offset_Y);
                         c -= 1000 / 60;
                     }
 
                     ch.MaxValue = max;
                     ch.MinValue = min;
-                    ch.AvgValue = avg / (ch.Init_Values.Count - 1 - 1 - num);
+                    ch.AvgValue = avg / (ch.Values.Count - 1 - 1 - num);
                     pen.Dispose();
                 }
-                count = ch.Init_Values.Count();
+                count = ch.Values.Count();
             }
         }
         

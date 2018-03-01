@@ -66,7 +66,14 @@ namespace ZongContorls.Osc
                 {
                     ChannelManager.AddChannel(si);
                 }
-                this.ParentListBox.BindingChannels(ChannelManager.Channels);
+                ObservableCollection<ChannelItem> ChannelItems = new ObservableCollection<ChannelItem>();
+                foreach(Channel chan in ChannelManager.Channels)
+                {
+                    ChannelItem channelItem = new ChannelItem(chan);
+                    ChannelItems.Add(channelItem);
+                }
+                this.ParentListBox.BindingChannels(ChannelItems);
+                this.StartDisplay();
                 this.Close();
             }
             
@@ -80,9 +87,25 @@ namespace ZongContorls.Osc
         private void New_Click(object sender, RoutedEventArgs e)
         {
             ChannelManager.AddChannel();
-            this.ParentListBox.BindingChannels(ChannelManager.Channels);
+            ObservableCollection<ChannelItem> ChannelItems = new ObservableCollection<ChannelItem>();
+            foreach (Channel chan in ChannelManager.Channels)
+            {
+                ChannelItem channelItem = new ChannelItem(chan);
+                ChannelItems.Add(channelItem);
+            }
+            this.ParentListBox.BindingChannels(ChannelItems);
+            this.StartDisplay();
             //关闭窗口
             this.Close();
+        }
+
+        private void StartDisplay()
+        {
+            if (ParentListBox.ChannelItems.Count != 0)
+            {
+                ParentListBox._OscPanel.display.IsDraw = true;
+                ParentListBox._OscPanel.display.Switch = true;
+            }
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,10 +26,15 @@ namespace ZongContorls.Osc
         public OscPanel()
         {
             InitializeComponent();
-            InitializeRuler();
-            this.DataContext = display;
+            InitializeRuler();//初始化标尺
             TimeClock timeClock = new TimeClock();
             this.clock.DataContext = timeClock;
+        }
+        private SignalListBox _SignalListBox;
+        public void SetSignalListBox(SignalListBox signalListBox)
+        {
+            this._SignalListBox = signalListBox;
+            this.display.BindChannels(_SignalListBox.ChannelItems);
         }
 
         //初始化标尺
@@ -148,4 +155,5 @@ namespace ZongContorls.Osc
             isMouseDownSwiperBtn = false;
         }
     }
+
 }
