@@ -15,7 +15,7 @@
             <TextBox Width="0" Height="0" Name="unFouce" />
             <DockPanel>
                 <!--面板属性-->
-                <Grid DockPanel.Dock="Right" MaxWidth="500" MinWidth="200" Background="#F7F8F9">
+                <Grid DockPanel.Dock="Right" MaxWidth="500" MinWidth="200" Background="#F7F8F9" Visibility="Collapsed">
                     <!--<Grid.RowDefinitions>
                     <RowDefinition Height="30" />
                     <RowDefinition Height="*" />
@@ -52,7 +52,7 @@
                         <TextBlock Text="最大值 : 1.32V" FontSize="14" Foreground="#404040" Padding="20,5,5,5" />
                     </StackPanel>
                 </Grid>
-                <dps:DockPanelSplitter DockPanel.Dock="Right" Width="5" Background="#CCCCCC" />
+                <dps:DockPanelSplitter DockPanel.Dock="Right" Width="5" Background="#CCCCCC" Visibility="Collapsed" />
                 <!--主面板-->
                 <Grid DockPanel.Dock="Left" Background="#E1E2E6">
                     <Grid.RowDefinitions>
@@ -74,13 +74,13 @@
                                             PreviewMouseMove="SwiperBtn_MouseMove"
                                             PreviewMouseUp="SwiperBtn_MouseUp"/>
                     </Canvas>
-                    <Grid Grid.Column="0" Grid.Row="1" Background="#F0F1F3">
-                        <local:OscRuler x:Name="ruler_y"></local:OscRuler>
+                    <Grid Grid.Column="0" Grid.Row="1" Background="#F0F1F3" SizeChanged="Grid_SizeChanged">
+                        <local:OscRuler x:Name="ruler_y" ></local:OscRuler>
                     </Grid>
                     <wfi:WindowsFormsHost Grid.Column="1" Grid.Row="1">
                         <local:OscDisplay x:Name="display" />
                     </wfi:WindowsFormsHost>
-                    <WrapPanel Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <WrapPanel Name="parameter" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <WrapPanel.Resources>
                             <Style TargetType="{x:Type TextBox}">
                                 <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -108,7 +108,7 @@
                         <WrapPanel>
                             <Label Foreground="DimGray">单位时间:</Label>
                             <TextBox Name="unit_time" input:InputMethod.IsInputMethodEnabled="False"
-                                     Text="500" IsReadOnly="True" MouseDoubleClick="TextBox_MouseDoubleClick"
+                                     Text="{Binding Path=Unit_X,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" MouseDoubleClick="TextBox_MouseDoubleClick"
                                      LostFocus="TextBox_LostFocus" Cursor="SizeWE"
                                      PreviewMouseLeftButtonDown="unit_time_MouseLeftButtonDown"
                                      PreviewMouseMove="unit_time_MouseMove"
@@ -121,8 +121,9 @@
                         </WrapPanel>
                         <WrapPanel Margin="30,0,0,0">
                             <Label Foreground="DimGray">单位电压 :</Label>
-                            <TextBox input:InputMethod.IsInputMethodEnabled="False"
-                                     Text="1" IsReadOnly="True" MouseDoubleClick="TextBox_MouseDoubleClick"
+                            <TextBox Name="unit_vol"
+                                     input:InputMethod.IsInputMethodEnabled="False"
+                                     Text="{Binding Path=Unit_Y,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" MouseDoubleClick="TextBox_MouseDoubleClick"
                                      LostFocus="TextBox_LostFocus" Cursor="SizeWE"
                                      PreviewMouseLeftButtonDown="unit_time_MouseLeftButtonDown"
                                      PreviewMouseMove="unit_time_MouseMove"

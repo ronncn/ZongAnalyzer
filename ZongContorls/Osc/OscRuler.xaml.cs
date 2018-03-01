@@ -33,7 +33,19 @@ namespace ZongContorls.Osc
         public double Zero = 0d;
 
         //设置偏移量
-        public double Offset = 0d;
+        private double _Offset = 0d;
+        public double Offset
+        {
+            get { return _Offset; }
+            set
+            {
+                if(value != _Offset)
+                {
+                    _Offset = value;
+                    base.InvalidateVisual();
+                }
+            }
+        }
 
         //设置div像素
         public int Interval = 50;

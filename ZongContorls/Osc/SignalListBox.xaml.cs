@@ -109,14 +109,19 @@ namespace ZongContorls.Osc
         private void show_Click(object sender, RoutedEventArgs e)
         {
             ListBoxItem listItem = GetParentObject<ListBoxItem>((DependencyObject)sender);
+            ChannelItem c = (ChannelItem)(listItem).DataContext;
             listItem.IsSelected = true;
             if(listItem.Background != Brushes.Gray)
             {
+                //隐藏
                 listItem.Background = Brushes.Gray;
+                c.IsShow = false;
             }
             else
             {
+                //显示
                 listItem.Background = listItem.BorderBrush;
+                c.IsShow = true;
             }
         }
 

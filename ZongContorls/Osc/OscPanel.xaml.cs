@@ -27,8 +27,7 @@ namespace ZongContorls.Osc
         {
             InitializeComponent();
             InitializeRuler();//初始化标尺
-            TimeClock timeClock = new TimeClock();
-            this.clock.DataContext = timeClock;
+            this.parameter.DataContext = display;
         }
         private SignalListBox _SignalListBox;
         public void SetSignalListBox(SignalListBox signalListBox)
@@ -42,15 +41,15 @@ namespace ZongContorls.Osc
         {
             //x轴标尺
             ruler_x.Unit_Name = "ms";
-            ruler_x.Unit_Value = 50d;
+            ruler_x.Unit_Value = display.Unit_X / 10;
             ruler_x.Zero = 0;
             ruler_x.Offset = 0d;
 
             //y轴标尺
             ruler_y.Unit_Name = "";
-            ruler_y.Unit_Value = 0.1d;
+            ruler_y.Unit_Value = display.Unit_Y / 10;
             ruler_y.Zero = 0;
-            ruler_y.Offset = -390;
+            ruler_y.Offset = 0;
         }
 
         //失去焦点
@@ -153,6 +152,17 @@ namespace ZongContorls.Osc
         private void SwiperBtn_MouseUp(object sender, MouseButtonEventArgs e)
         {
             isMouseDownSwiperBtn = false;
+        }
+
+        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double d = 0;
+            if((ruler_y.ActualHeight/2) % 100 != 0)
+            {
+                d = ruler_y.ActualHeight / 2 + (100 - (ruler_y.ActualHeight / 2) % 100);
+            }
+            ruler_y.Offset = -d;
+            display.ZeroPoint = new System.Drawing.Point((int)ruler_x.Offset, -(int)ruler_y.Offset);
         }
     }
 

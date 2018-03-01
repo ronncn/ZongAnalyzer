@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using AnalyzerLogic;
+using System.Diagnostics;
 
 namespace ZongContorls.Osc
 {
@@ -29,164 +31,218 @@ namespace ZongContorls.Osc
              * timer2是缓冲画布,循环不断绘制新的波形(不用于显示)
              */
             timer1.Enabled = false;
-            timer1.Interval = 10;
+            timer1.Interval = 30;
             timer2.Enabled = false;
             timer2.Interval = 10;
+
+            sw = new Stopwatch();
+            //TimeClock timeClock = new TimeClock();
         }
         #region 私有属性
-                //通道
+        //通道
 
-                private ObservableCollection<ChannelItem> listCH;
+        private ObservableCollection<ChannelItem> listCH;
 
-                //画布
+        //运行时间
 
-                private Bitmap backBitmap;                  //背景图片
-                private bool isOnPaint = false;             //重绘画布的标记
-                private bool isOnBackPaint = false;         //重绘背景的标记
-                private bool isShowGrid = true;             //是否显示网格
-                private int gridStep = 50;                  //网格步宽
+        Stopwatch sw; //秒表对象
+        TimeSpan ts;
+        //private int t = 0;//总时间数(毫秒数)
+        private string output = "00:00:00.00";//输出格式化时间
+        
+        Timer timer3;//快照定时器
+                
 
-                //数据缓存
+        //画布
 
-                Bitmap bitmap1;
-                Bitmap bitmap2;
-                Bitmap bitmap3;
-                Bitmap bitmapTemp;                          //绘制分析的画布
-                Bitmap bitmapWave;                          //绘制波形的画布
-                int cursor = 1;                             //游标
-                int pointer;                                //指针
-                int bmpLock;                                //画布锁
+        private Bitmap backBitmap;                  //背景图片
+        private bool isOnPaint = false;             //重绘画布的标记
+        private bool isOnBackPaint = false;         //重绘背景的标记
+        private bool isShowGrid = true;             //是否显示网格
+        private int gridStep = 50;                  //网格步宽
 
-                //属性数据
+        //数据缓存
 
-                private double max;                         //最大值
-                private double min;                         //最小值
-                private double avg;                         //平均值
+        Bitmap bitmap1;
+        Bitmap bitmap2;
+        Bitmap bitmap3;
+        Bitmap bitmapTemp;                          //绘制分析的画布
+        Bitmap bitmapWave;                          //绘制波形的画布
+        int cursor = 1;                             //游标
+        int pointer;                                //指针
+        int bmpLock;                                //画布锁
 
-                //工具
+        //属性数据
 
-                private bool isPrintScreen = false;         //是否打印屏幕
+        private double max;                         //最大值
+        private double min;                         //最小值
+        private double avg;                         //平均值
+
+        //工具
+
+        private bool isPrintScreen = false;         //是否打印屏幕
         #endregion
 
 
         #region 公有属性
 
-            public Point ZeroPoint = new Point(0, 390);
-
-            /// <summary>
-            /// 是否显示网格
-            /// </summary>
-            public bool IsShowGrid
+        public Point _ZeroPoint = new Point(0, 390);
+        public Point ZeroPoint
+        {
+            get { return _ZeroPoint; }
+            set
             {
-                get { return isShowGrid; }
-                set
+                if(value != _ZeroPoint)
                 {
-                    if (value != isShowGrid)
+                    _ZeroPoint = value;
+                    base.Invalidate();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 输出格式化时间
+        /// </summary>
+        public string Output
+        {
+            get { return output; }
+            set
+            {
+                if (value != output)
+                {
+                    output = value;
+                    OnPropertyChanged("Output");
+                }
+            }
+        }
+        /// <summary>
+        /// 是否显示网格
+        /// </summary>
+        public bool IsShowGrid
+        {
+            get { return isShowGrid; }
+            set
+            {
+                if (value != isShowGrid)
+                {
+                    isShowGrid = value;
+                    isOnBackPaint = true;
+                    base.Invalidate();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 暂停/开始刷新
+        /// </summary>
+        public bool Switch
+        {
+            get { return timer1.Enabled; }
+            set
+            {
+                if (value != timer1.Enabled)
+                {
+                    timer1.Enabled = value;
+                    OnPropertyChanged("Switch");
+                }
+            }
+        }
+
+        /// <summary>
+        /// 开始后台绘制采集点(后台画)
+        /// </summary>
+        public bool IsDraw
+        {
+            get { return timer2.Enabled; }
+            set
+            {
+                if(value != timer2.Enabled)
+                {
+                    timer2.Enabled = value;
+                    if (timer2.Enabled)
                     {
-                        isShowGrid = value;
-                        isOnBackPaint = true;
-                        base.Invalidate();
+                        sw.Start();
+                    }
+                    else
+                    {
+                        sw.Stop();
                     }
                 }
             }
+        }
 
-            /// <summary>
-            /// 暂停/开始刷新
-            /// </summary>
-            public bool Switch
+        private bool isAnalysis = false;
+        /// <summary>
+        /// 是否开启分析工具
+        /// </summary>
+        public bool IsAnalysis
+        {
+            get { return isAnalysis; }
+            set
             {
-                get { return timer1.Enabled; }
-                set
+                if (value != isAnalysis)
                 {
-                    if (value != timer1.Enabled)
-                    {
-                        timer1.Enabled = value;
-                        OnPropertyChanged("Switch");
-                    }
+                    isAnalysis = value;
+                    if (isAnalysis)
+                        isShowFollow = true;
                 }
             }
+        }
 
-            /// <summary>
-            /// 开始后台绘制采集点(后台画)
-            /// </summary>
-            public bool IsDraw
+        //网格代表的y轴单位
+        private double unit_y = 1d;
+        public double Unit_Y
+        {
+            get { return unit_y; }
+            set
             {
-                get { return timer2.Enabled; }
-                set { timer2.Enabled = value; }
-            }
-
-            private bool isAnalysis = false;
-            /// <summary>
-            /// 是否开启分析工具
-            /// </summary>
-            public bool IsAnalysis
-            {
-                get { return isAnalysis; }
-                set
+                if (value != unit_y)
                 {
-                    if (value != isAnalysis)
-                    {
-                        isAnalysis = value;
-                        if (isAnalysis)
-                            isShowFollow = true;
-                    }
+                    unit_y = value;
+                    OnPropertyChanged("Unit_Y");
+                    base.Invalidate();
                 }
             }
+        }
 
-            //网格代表的y轴单位
-            private int unit_y = 1;
-            public int Unit_Y
+        //网格代表的x轴单位
+        private double unit_x = 500d;                   //初始化500毫秒/格子
+        public double Unit_X
+        {
+            get { return unit_x; }
+            set
             {
-                get { return unit_y; }
-                set
+                if (value != unit_x)
                 {
-                    if (value != unit_y)
-                    {
-                        unit_y = value;
-                        OnPropertyChanged("Unit_Y");
-                        base.Invalidate();
-                    }
+                    unit_x = value;
+                    OnPropertyChanged("Unit_X");
+                    base.Invalidate();
                 }
             }
+        }
 
-            //网格代表的x轴单位
-            private int unit_x = 500;                   //初始化500毫秒/格子
-            public int Unit_X
+        //刷新FPS
+        public int PaintFPS
+        {
+            get { return 1000 / timer1.Interval; }
+            set
             {
-                get { return unit_x; }
-                set
+                timer1.Interval = 1000 / value;
+            }
+        }
+
+        public bool IsPrintScreen
+        {
+            get { return isPrintScreen; }
+            set
+            {
+                if (value != isPrintScreen)
                 {
-                    if (value != unit_x)
-                    {
-                        unit_x = value;
-                        OnPropertyChanged("Unit_X");
-                        base.Invalidate();
-                    }
+                    isPrintScreen = value;
+                    base.Invalidate();
                 }
             }
-
-            //刷新FPS
-            public int PaintFPS
-            {
-                get { return 1000 / timer1.Interval; }
-                set
-                {
-                    timer1.Interval = 1000 / value;
-                }
-            }
-
-            public bool IsPrintScreen
-            {
-                get { return isPrintScreen; }
-                set
-                {
-                    if (value != isPrintScreen)
-                    {
-                        isPrintScreen = value;
-                        base.Invalidate();
-                    }
-                }
-            }
+        }
         
         #endregion
 
@@ -320,8 +376,6 @@ namespace ZongContorls.Osc
                 this.listCH = observableCollection;
             }
 
-            Timer timer3;
-
             /// <summary>
             ///截取快照
             /// </summary>
@@ -334,7 +388,7 @@ namespace ZongContorls.Osc
                 g.DrawImage(backBitmap, 20, 0);
                 g.DrawImage(bitmapWave, 20, 0);
                 g.TranslateTransform(bmp.Width, (bmp.Height - 20) / 2);
-                int x = 0;
+                double x = 0;
                 g.DrawString(x.ToString(), new Font("Arial", 10), Brushes.Gray, new Point(-10, (bmp.Height - 20) / 2 + 2));
                 StringFormat stringFormat = new StringFormat();
                 stringFormat.Alignment = StringAlignment.Center; //居中
@@ -346,7 +400,7 @@ namespace ZongContorls.Osc
                     int off = x.ToString().Length * 4;
                     g.DrawString(x.ToString(), new Font("Arial", 10), Brushes.Gray, new Point(i - off, (bmp.Height - 20) / 2 + 2));
                 }
-                int y = 0;
+                double y = 0;
                 g.DrawString(y.ToString(), new Font("Arial", 10), Brushes.Gray, new Point(-bmp.Width + 6, -8));
                 for (int i = gridStep; i < (bmp.Height - 20) / 2; i += gridStep)
                 {
@@ -387,7 +441,37 @@ namespace ZongContorls.Osc
 
         private void timer2_Tick(object sender, EventArgs e)
         {
+            ts = sw.Elapsed;
+            Output = GetOutput(ts);
             this.DrawTemp();
+        }
+        
+        private string GetOutput(TimeSpan time)
+        {
+            string hh, mm, ss, fff;
+            hh = ts.Hours.ToString();
+            mm = ts.Minutes.ToString();
+            ss = ts.Seconds.ToString();
+            fff = (ts.Milliseconds/10).ToString();
+
+            if (ts.Hours < 10)
+            {
+                hh = "0" + ts.Hours;
+            }
+            if(ts.Minutes < 10)
+            {
+                mm = "0" + ts.Minutes;
+            }
+            if(ts.Seconds < 10)
+            {
+                ss = "0" + ts.Seconds;
+            }
+            if(ts.Milliseconds / 10 < 10)
+            {
+                fff = "0" + ts.Milliseconds / 10;
+            }
+
+            return hh + ":" + mm + ":" + ss + "." + fff;
         }
 
         /// <summary>
@@ -447,7 +531,7 @@ namespace ZongContorls.Osc
                     gBuffer = Graphics.FromImage(bitmap1);
                     break;
             }
-            gBuffer.TranslateTransform(bitmap1.Width, bitmap1.Height / 2);
+            gBuffer.TranslateTransform(ZeroPoint.X, ZeroPoint.Y);
             gBuffer.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             this.DrawChan(gBuffer);
         }
@@ -468,11 +552,11 @@ namespace ZongContorls.Osc
                 max = 0;
                 min = 1000000;
                 avg = 0;
-                if (count != 0)
+                if (count != 0 && ch.IsShow)
                 {
                     Color color = System.Drawing.ColorTranslator.FromHtml(ch.Color);
                     Pen pen = new Pen(color, 1);
-                    int num = ch.Values.Count - (500 + 5) * this.Width / gridStep * unit_x / 1000 < 0 ? 0 : ch.Values.Count - (500 + 5) * this.Width / gridStep * unit_x / 1000;
+                    int num = ch.Values.Count - (500 + 5) * this.Width / gridStep * (int)unit_x / 1000 < 0 ? 0 : ch.Values.Count - (500 + 5) * this.Width / gridStep * (int)unit_x / 1000;
                     int c = 0;
                     for (int i = ch.Values.Count - 1; i > num; i--)
                     {
@@ -481,9 +565,9 @@ namespace ZongContorls.Osc
                         if(min > ch.Values[i])
                             min = ch.Values[i];
                         avg += ch.Values[i];
-                        g.DrawLine(pen, (float)(c * gridStep / unit_x), (float)-ch.Values[i] * gridStep / unit_y - (float)ch.Offset_Y,
-                            (float)((c - 1000 / 60) * gridStep / unit_x), (float)-(ch.Values[i - 1]) * gridStep / unit_y - (float)ch.Offset_Y);
-                        c -= 1000 / 60;
+                        g.DrawLine(pen,(float)(c*gridStep/unit_x),(float)-ch.Values[i]*gridStep/(int)unit_y-(float)ch.Offset_Y,
+                            (float)((c+1000/60)*gridStep/unit_x), ((float)-(ch.Values[i - 1]) * gridStep / (int)unit_y - (float)ch.Offset_Y));
+                        c += 1000 / 60;
                     }
 
                     ch.MaxValue = max;
