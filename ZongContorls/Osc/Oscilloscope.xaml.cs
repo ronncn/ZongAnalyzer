@@ -28,8 +28,6 @@ namespace ZongContorls
             InitializeContext();//初始化关系
             dataHandling = new DataHandling();
             dataHandling.PropertyChanged += new PropertyChangedEventHandler(UsbState_PropertyChanged);
-
-            this.OscToolBar_1.SetBtnStopContext(OscPanel_1.display);
         }
 
         private DataHandling dataHandling;
@@ -47,9 +45,8 @@ namespace ZongContorls
 
         private void InitializeContext()
         {
-            //OscPanel_1.BindingChannels(SignalListBox_1.Channels);
-            //OscPanel_1.SetSignalListBox(SignalListBox_1)
             SignalListBox_1.SetOscPanel(OscPanel_1);
+            OscToolBar_1.SetOscPanel(OscPanel_1);
         }
     }
 }

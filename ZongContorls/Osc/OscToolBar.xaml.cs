@@ -25,12 +25,18 @@ namespace ZongContorls.Osc
             InitializeComponent();
         }
 
+        public OscPanel _OscPanel;
         /// <summary>
         /// 设置数据
         /// </summary>
         public void SetContext(object context)
         {
             this.DataContext = context;
+        }
+        public void SetOscPanel(OscPanel oscPanel)
+        {
+            this._OscPanel = oscPanel;
+            this.BtnStop.DataContext = _OscPanel.display;
         }
 
         //设置链接成功
@@ -50,12 +56,9 @@ namespace ZongContorls.Osc
             this.connect.Source = imgSource;
         }
 
-
-        //设置BtnStop按钮的上下文
-        public void SetBtnStopContext(object context)
+        private void PrintScreen_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            this.BtnStop.DataContext = context;
+            this._OscPanel.display.PrintScreen();
         }
-             
     }
 }

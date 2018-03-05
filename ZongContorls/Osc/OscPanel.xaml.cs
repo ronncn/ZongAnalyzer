@@ -28,6 +28,20 @@ namespace ZongContorls.Osc
             InitializeComponent();
             InitializeRuler();//初始化标尺
             this.parameter.DataContext = display;
+            /* 
+            <local:OscSwiperBtn Canvas.Bottom="0" Canvas.Left="-10" Opacity="0.5"
+                                PreviewMouseDown="SwiperBtn_MouseDown"
+                                PreviewMouseMove="SwiperBtn_MouseMove"
+                                PreviewMouseUp="SwiperBtn_MouseUp"/>
+             */
+            OscSwiperBtn oscSwiperBtn = new OscSwiperBtn("style_2");
+            oscSwiperBtn.SetValue(Canvas.TopProperty, 0d);
+            oscSwiperBtn.SetValue(Canvas.RightProperty, 0d);
+            oscSwiperBtn.SetValue(OpacityProperty, 0.7d);
+            oscSwiperBtn.SetValue(OscSwiperBtn.nameProperty,"1220");
+            oscSwiperBtn.SetValue(OscSwiperBtn.colorProperty,"#ff0000");
+            oscSwiperBtn.Color = "#ff0000";
+            this.SwiperCanvas_2.Children.Add(oscSwiperBtn);
         }
         private SignalListBox _SignalListBox;
         public void SetSignalListBox(SignalListBox signalListBox)

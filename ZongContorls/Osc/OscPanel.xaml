@@ -77,6 +77,9 @@
                     <Grid Grid.Column="0" Grid.Row="1" Background="#F0F1F3" SizeChanged="Grid_SizeChanged">
                         <local:OscRuler x:Name="ruler_y" ></local:OscRuler>
                     </Grid>
+                    <!--滑块盒子-->
+                    <Canvas Name="SwiperCanvas_2" Grid.Column="0" Grid.Row="1" ClipToBounds="True">
+                    </Canvas>
                     <wfi:WindowsFormsHost Grid.Column="1" Grid.Row="1">
                         <local:OscDisplay x:Name="display" />
                     </wfi:WindowsFormsHost>

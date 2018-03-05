@@ -387,31 +387,34 @@ namespace ZongContorls.Osc
                 g.Clear(this.BackColor);
                 g.DrawImage(backBitmap, 20, 0);
                 g.DrawImage(bitmapWave, 20, 0);
-                g.TranslateTransform(bmp.Width, (bmp.Height - 20) / 2);
+                //定义坐标原点
+                g.TranslateTransform(ZeroPoint.X + 20,ZeroPoint.Y);
+                //横坐标数值
                 double x = 0;
-                g.DrawString(x.ToString(), new Font("Arial", 10), Brushes.Gray, new Point(-10, (bmp.Height - 20) / 2 + 2));
+                g.DrawString(x.ToString(), new Font("Arial", 10), Brushes.Gray, new Point(0,bitmapWave.Height-ZeroPoint.Y));
                 StringFormat stringFormat = new StringFormat();
                 stringFormat.Alignment = StringAlignment.Center; //居中
                 stringFormat.Alignment = StringAlignment.Far; //右对齐
-                g.DrawString("单位:(V/ms)", new Font("Arial", 10), Brushes.Gray, new Point(-10, (bmp.Height - 20) / 2 - 20), stringFormat);
-                for (int i = -gridStep; i >= -bmp.Width; i -= gridStep)
+                g.DrawString("单位:(V/ms)", new Font("Arial", 10), Brushes.Gray, new Point(bitmapWave.Width-10, bitmapWave.Height - ZeroPoint.Y - 20), stringFormat);
+                //横坐标
+                for (int i = gridStep; i <= bmp.Width; i += gridStep)
                 {
-                    x -= Unit_X;
+                    x += Unit_X;
                     int off = x.ToString().Length * 4;
-                    g.DrawString(x.ToString(), new Font("Arial", 10), Brushes.Gray, new Point(i - off, (bmp.Height - 20) / 2 + 2));
+                    g.DrawString(x.ToString(), new Font("Arial", 10), Brushes.Gray, new Point(i - off, bitmapWave.Height-ZeroPoint.Y + 2));
                 }
                 double y = 0;
-                g.DrawString(y.ToString(), new Font("Arial", 10), Brushes.Gray, new Point(-bmp.Width + 6, -8));
+                g.DrawString(y.ToString(), new Font("Arial", 10), Brushes.Gray, new Point(-12, -8));
                 for (int i = gridStep; i < (bmp.Height - 20) / 2; i += gridStep)
                 {
                     y -= Unit_Y;
-                    g.DrawString(y.ToString(), new Font("Arial", 10), Brushes.Gray, new Point(-bmp.Width + 4, i - 8));
+                    g.DrawString(y.ToString(), new Font("Arial", 10), Brushes.Gray, new Point( - 14, i - 8));
                 }
                 y = 0;
                 for (int i = -gridStep; i > -(bmp.Height - 20) / 2; i -= gridStep)
                 {
                     y += Unit_Y;
-                    g.DrawString(y.ToString(), new Font("Arial", 10), Brushes.Gray, new Point(-bmp.Width + 6, i - 8));
+                    g.DrawString(y.ToString(), new Font("Arial", 10), Brushes.Gray, new Point(-12, i - 8));
                 }
                 g.Dispose();
                 string date = DateTime.Now.ToString("yyyyMMddHHmmssffff");

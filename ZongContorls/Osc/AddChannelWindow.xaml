@@ -5,7 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZongContorls.Osc"
         mc:Ignorable="d"
-        Title="选择信道" Height="500" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="选择信道" Height="300" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="btnStyle_1">
+            <Setter Property="Width" Value="60" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Margin" Value="10,0,10,0" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="5" >
+                            <ContentPresenter Content="{TemplateBinding Content}"
+                                              Focusable="False" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              RecognizesAccessKey="True" 
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
@@ -63,8 +90,8 @@
             </ListBox.ItemContainerStyle>
         </ListBox>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" >
-            <Button Name="New" Width="60" Height="30" Content="新建" Margin="10,0,10,0" Click="New_Click" />
-            <Button Name="Add" Width="60" Height="30" Content="添加" Margin="10,0,10,0" Click="Add_Click" />
+            <Button Name="New" Background="Coral" Style="{StaticResource ResourceKey=btnStyle_1}" Content="新建" Click="New_Click" />
+            <Button Name="Add" Background="LightSkyBlue" Style="{StaticResource ResourceKey=btnStyle_1}" Content="添加" Click="Add_Click" />
         </StackPanel>
     </Grid>
 </Window>

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:AnalyzerUI"
         xmlns:ctrls="clr-namespace:ZongContorls;assembly=ZongContorls"
         mc:Ignorable="d"
-        Title="综合分析仪V0.2" Height="600" Width="1200" Icon="Images/head.png" MinWidth="800" MinHeight="600" WindowStartupLocation="CenterScreen" WindowState="Maximized" Closed="Window_Closed">
+        Title="综合分析仪V0.2" Height="800" Width="1200" Icon="Images/head.png" MinWidth="800" MinHeight="600" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
     <Grid>
         <ctrls:Oscilloscope></ctrls:Oscilloscope>
     </Grid>
