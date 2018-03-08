@@ -28,20 +28,6 @@ namespace ZongContorls.Osc
             InitializeComponent();
             InitializeRuler();//初始化标尺
             this.parameter.DataContext = display;
-            /* 
-            <local:OscSwiperBtn Canvas.Bottom="0" Canvas.Left="-10" Opacity="0.5"
-                                PreviewMouseDown="SwiperBtn_MouseDown"
-                                PreviewMouseMove="SwiperBtn_MouseMove"
-                                PreviewMouseUp="SwiperBtn_MouseUp"/>
-             */
-            OscSwiperBtn oscSwiperBtn = new OscSwiperBtn("style_2");
-            oscSwiperBtn.SetValue(Canvas.TopProperty, 0d);
-            oscSwiperBtn.SetValue(Canvas.RightProperty, 0d);
-            oscSwiperBtn.SetValue(OpacityProperty, 0.7d);
-            oscSwiperBtn.SetValue(OscSwiperBtn.nameProperty,"1220");
-            oscSwiperBtn.SetValue(OscSwiperBtn.colorProperty,"#ff0000");
-            oscSwiperBtn.Color = "#ff0000";
-            this.SwiperCanvas_2.Children.Add(oscSwiperBtn);
         }
         private SignalListBox _SignalListBox;
         public void SetSignalListBox(SignalListBox signalListBox)
@@ -140,26 +126,76 @@ namespace ZongContorls.Osc
 
         double start_y;
         double first;
+
+        public void ClearOscSwiperBtn()
+        {
+            this.SwiperCanvas_2.Children.Clear(); ;
+        }
+        public void AddOscSwiperBtn(ChannelItem ch)
+        {
+            OscSwiperBtn oscSwiperBtn = new OscSwiperBtn("style_2");
+            oscSwiperBtn.Id = ch.Id;
+            oscSwiperBtn.channelItem = ch;
+            Binding binding = new Binding { Source = ch, Path = new PropertyPath("Color") };
+            oscSwiperBtn.SetBinding(OscSwiperBtn.colorProperty, binding);
+            Binding binding1 = new Binding { Source = ch, Path = new PropertyPath("Name") };
+            oscSwiperBtn.SetBinding(OscSwiperBtn.textProperty, binding1);
+            double val = (double)(ruler_y.ActualHeight / 2 - 10 - ch.Offset_Y);
+            oscSwiperBtn.SetValue(Canvas.TopProperty, val);
+            oscSwiperBtn.SetValue(Canvas.RightProperty, 0d);
+            oscSwiperBtn.SetValue(OpacityProperty, 0.7d);
+
+            //订阅事件
+            oscSwiperBtn.PreviewMouseDown += SwiperBtn_MouseDown;
+            oscSwiperBtn.PreviewMouseMove += SwiperBtn_MouseMove;
+            oscSwiperBtn.PreviewMouseUp += SwiperBtn_MouseUp;
+
+            //添加到canvas中
+            this.SwiperCanvas_2.Children.Add(oscSwiperBtn);
+        }
+
         private void SwiperBtn_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            isMouseDownSwiperBtn = true;
-            start_y = e.GetPosition(SwiperCanvas_1).X;
             OscSwiperBtn btn = (OscSwiperBtn)sender;
-            first = (double)btn.GetValue(Canvas.LeftProperty);
+
+            isMouseDownSwiperBtn = true;
+            if (btn.Style == "style_1")
+            {
+                start_y = e.GetPosition(SwiperCanvas_1).X;
+                first = (double)btn.GetValue(Canvas.LeftProperty);
+            }
+            else if(btn.Style == "style_2")
+            {
+                start_y = e.GetPosition(SwiperCanvas_2).Y;
+                first = (double)btn.GetValue(Canvas.TopProperty);
+            }
         }
 
         double end_y;
         private void SwiperBtn_MouseMove(object sender, MouseEventArgs e)
         {
+            OscSwiperBtn btn = (OscSwiperBtn)sender;
             if (isMouseDownSwiperBtn)
             {
-                end_y = e.GetPosition(SwiperCanvas_1).X;
-                OscSwiperBtn btn = (OscSwiperBtn)sender;
-                double val = first + (end_y - start_y);
-                if (val < -10) { val = -10; }
-                if (val > SwiperCanvas_1.ActualWidth - 20) { val = SwiperCanvas_1.ActualWidth - 20; }
-                btn.SetValue(Canvas.LeftProperty, val);
-                e.Handled = true;
+                if(btn.Style == "style_1")
+                {
+                    end_y = e.GetPosition(SwiperCanvas_1).X;
+                    double val = first + (end_y - start_y);
+                    if (val < -10) { val = -10; }
+                    if (val > SwiperCanvas_1.ActualWidth - 20) { val = SwiperCanvas_1.ActualWidth - 20; }
+                    btn.SetValue(Canvas.LeftProperty, val);
+                    e.Handled = true;
+                }
+                else if(btn.Style == "style_2")
+                {
+                    end_y = e.GetPosition(SwiperCanvas_2).Y;
+                    double val = first + (end_y - start_y);
+                    if (val < -10) { val = -10; }
+                    if (val > SwiperCanvas_2.ActualHeight - 20) { val = SwiperCanvas_2.ActualHeight - 20; }
+                    btn.channelItem.Offset_Y = ruler_y.ActualHeight / 2 - val - 10;
+                    btn.SetValue(Canvas.TopProperty, val);
+                    e.Handled = true;
+                }
             }
         }
 

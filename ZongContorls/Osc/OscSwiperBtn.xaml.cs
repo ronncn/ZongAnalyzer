@@ -22,6 +22,8 @@ namespace ZongContorls.Osc
     public partial class OscSwiperBtn : UserControl , INotifyPropertyChanged 
     {
         Button btn = new Button();
+        public string Style;
+        public ChannelItem channelItem;
         public OscSwiperBtn(string str)
         {
             InitializeComponent();
@@ -29,34 +31,32 @@ namespace ZongContorls.Osc
             switch (str)
             {
                 case "style_1":
+                    this.Style = "style_1";
                     this.Width = 20;
                     this.Height = 15;
                     btn.SetResourceReference(Button.StyleProperty, "HSwiperBtn");
                     this.grid.Children.Add(btn);
                     break;
                 case "style_2":
+                    this.Style = "style_2";
                     this.Width = 40;
                     this.Height = 20;
                     btn.SetResourceReference(Button.StyleProperty, "VSwiperBtn");
                     this.grid.Children.Add(btn);
                     break;
                 default:
+                    this.Style = "default";
                     this.Width = 20;
                     this.Height = 15;
                     btn.SetResourceReference(Button.StyleProperty, "HSwiperBtn");
                     this.grid.Children.Add(btn);
                     break;
             }
-
-
-            Binding binding = new Binding { Source = ch, Path = new PropertyPath("Color") };
-            btn.SetBinding(SwiperBtn.colorProperty, binding);
-            Binding binding1 = new Binding { Source = ch, Path = new PropertyPath("Name") };
-            btn.SetBinding(SwiperBtn.nameProperty, binding1);
         }
 
         public OscSwiperBtn()
         {
+            this.Style = "null";
             InitializeComponent();
             this.btn.DataContext = this;
             this.Width = 20;
@@ -87,15 +87,15 @@ namespace ZongContorls.Osc
             DependencyProperty.Register("Color", typeof(string), typeof(SwiperBtn), new PropertyMetadata("#000000"));
 
 
-        public new string Name
+        public string Text
         {
-            get { return (string)GetValue(nameProperty); }
-            set { SetValue(nameProperty, value); OnPropertyChanged("Name"); }
+            get { return (string)GetValue(textProperty); }
+            set { SetValue(textProperty, value); OnPropertyChanged("Text"); }
         }
 
         // Using a DependencyProperty as the backing store for data_value.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty nameProperty =
-            DependencyProperty.Register("Name", typeof(string), typeof(SwiperBtn), new PropertyMetadata("通道*"));
+        public static readonly DependencyProperty textProperty =
+            DependencyProperty.Register("Text", typeof(string), typeof(SwiperBtn), new PropertyMetadata("通道*"));
 
         /// <summary>
         /// 获得指定元素的父元素  

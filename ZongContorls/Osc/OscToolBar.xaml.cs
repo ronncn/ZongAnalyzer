@@ -45,7 +45,7 @@ namespace ZongContorls.Osc
             BitmapImage imgSource;
             if (flag)
             {
-                imgSource = new BitmapImage(new Uri("../Images/_link.png", UriKind.Relative));
+                imgSource = new BitmapImage(new Uri("../Images/link.png", UriKind.Relative));
                 this.connectBorder.ToolTip = "已连接";
             }
             else

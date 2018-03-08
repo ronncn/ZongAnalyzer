@@ -34,6 +34,11 @@ namespace ZongContorls.Osc
         public void BindingChannels(ObservableCollection<ChannelItem> channelitems)
         {
             this.ChannelItems = channelitems;
+            _OscPanel.ClearOscSwiperBtn();
+            foreach(ChannelItem chitem in channelitems)
+            {
+                _OscPanel.AddOscSwiperBtn(chitem);
+            }
             listBox.ItemsSource = ChannelItems;
             this._OscPanel.display.BindChannels(ChannelItems);
         }
@@ -129,6 +134,12 @@ namespace ZongContorls.Osc
         {
             AddChannelWindow addChannelWindow = new AddChannelWindow(this);
             addChannelWindow.Show();
+        }
+
+        private void clear_Click(object sender, RoutedEventArgs e)
+        {
+            this.ChannelItems.Clear();
+            ChannelManager.Channels.Clear();
         }
     }
 

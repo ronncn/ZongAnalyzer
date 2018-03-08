@@ -155,7 +155,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button ToolTip="删除">
+                <Button ToolTip="删除" Name="btnClear" Click="clear_Click">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="Width" Value="25" />

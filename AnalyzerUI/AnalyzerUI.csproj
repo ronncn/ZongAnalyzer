@@ -108,13 +108,13 @@
     <Resource Include="Images\head.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Desktop\解决方案\电压采集1-18\USBLib\USBLib.csproj">
-      <Project>{bdcc53a9-a3ca-486f-b8fd-c3869322a529}</Project>
-      <Name>USBLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\AnalyzerLogic\AnalyzerLogic.csproj">
       <Project>{82dcd25d-48b6-459a-8ec0-c7f55017643c}</Project>
       <Name>AnalyzerLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\USBLib\USBLib.csproj">
+      <Project>{bdcc53a9-a3ca-486f-b8fd-c3869322a529}</Project>
+      <Name>USBLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\ZongContorls\ZongContorls.csproj">
       <Project>{3f5cb1a5-65fd-4809-92f6-bd4de949ce99}</Project>
