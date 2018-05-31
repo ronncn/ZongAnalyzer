@@ -77,6 +77,7 @@ namespace ZongContorls.Osc
                 if(chan.Id == c.Id)
                 {
                     ChannelManager.Channels.Remove(chan);
+                    _OscPanel.RemoveOscSwiperBtn(chan.Id);
                     return;
                 }
             }
@@ -140,6 +141,7 @@ namespace ZongContorls.Osc
         {
             this.ChannelItems.Clear();
             ChannelManager.Channels.Clear();
+            _OscPanel.ClearOscSwiperBtn();
         }
     }
 

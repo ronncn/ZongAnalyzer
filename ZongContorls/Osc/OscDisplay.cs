@@ -165,7 +165,7 @@ namespace ZongContorls.Osc
                     }
                     else
                     {
-                        sw.Stop();
+                        sw.Reset();
                     }
                 }
             }
@@ -446,6 +446,11 @@ namespace ZongContorls.Osc
         {
             ts = sw.Elapsed;
             Output = GetOutput(ts);
+            if (listCH.Count == 0)
+            {
+                Output = "00:00:00.00";
+                this.IsDraw = false;
+            }
             this.DrawTemp();
         }
         

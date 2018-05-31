@@ -58,9 +58,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="WindowSetter.xaml.cs">
+      <DependentUpon>WindowSetter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ZongAnalyzer02.xaml.cs">
       <DependentUpon>ZongAnalyzer02.xaml</DependentUpon>
     </Compile>
+    <Page Include="WindowSetter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ZongAnalyzer01.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

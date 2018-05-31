@@ -60,5 +60,19 @@ namespace ZongContorls.Osc
         {
             this._OscPanel.display.PrintScreen();
         }
+
+        WindowSetter windowSetter = new WindowSetter();
+        private void setter_Click(object sender, RoutedEventArgs e)
+        {
+            if (windowSetter == null || windowSetter.IsVisible == false)
+            {
+                windowSetter.Show();
+            }
+            else
+            {
+                windowSetter.Activate();
+                windowSetter.WindowState = WindowState.Normal;
+            }
+        }
     }
 }

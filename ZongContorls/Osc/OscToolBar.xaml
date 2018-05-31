@@ -229,7 +229,7 @@
             </StackPanel>
             <Border Grid.Column="3" Width="1" Height="40" Background="#CCCCCC"></Border>
             <StackPanel Orientation="Horizontal" Grid.Column="4" HorizontalAlignment="Right">
-                <Button>
+                <Button Name="setter" Click="setter_Click">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="Width" Value="40" />
@@ -251,7 +251,7 @@
                                                     <RowDefinition Height="*" />
                                                 </Grid.RowDefinitions>
                                                 <Image Grid.Row="0" Source="../Images/moshi_2.png" />
-                                                <TextBlock Grid.Row="1" Text="逻辑" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Row="1" Text="设置" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                             </Grid>
                                         </Border>
                                     </ControlTemplate>

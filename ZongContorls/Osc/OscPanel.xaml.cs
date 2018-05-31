@@ -131,6 +131,19 @@ namespace ZongContorls.Osc
         {
             this.SwiperCanvas_2.Children.Clear(); ;
         }
+
+        public void RemoveOscSwiperBtn(int id)
+        {
+            foreach (UIElement element in SwiperCanvas_2.Children)
+            {
+                OscSwiperBtn btn = (OscSwiperBtn)element;
+                if(btn.Id == id)
+                {
+                    SwiperCanvas_2.Children.Remove(btn);
+                    return;
+                }
+            }
+        }
         public void AddOscSwiperBtn(ChannelItem ch)
         {
             OscSwiperBtn oscSwiperBtn = new OscSwiperBtn("style_2");
